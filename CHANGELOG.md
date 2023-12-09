@@ -1,3 +1,15 @@
+# v0.0.12 (Sat Dec 09 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Update app.py ([@plsgivemeachane](https://github.com/plsgivemeachane))
+
+#### Authors: 1
+
+- [@plsgivemeachane](https://github.com/plsgivemeachane)
+
+---
+
 # v0.0.11 (Sat Dec 09 2023)
 
 #### ⚠️ Pushed to `main`
