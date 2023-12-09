@@ -21,7 +21,7 @@ app.teardown_appcontext(close_db)
 
 @app.route("/")
 def index():
-    return bard.get_answer("Hello Bard")['content']
+    return "Hello World"
 
 
 @app.route("/health")
