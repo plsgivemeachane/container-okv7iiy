@@ -7,13 +7,6 @@ from bardapi.constants import SESSION_HEADERS
 from bardapi import Bard
 
 token = "dQhvWFqsmqBZFXIj3awh3yYbM3GZJBM6tGY_HC2Yyk9xnmf7kKG8p_RdQxjaZjHabDAnBA."
-
-def seassionCookieSet(session):
-    session.cookies.set("__Secure-1PSID", token)
-    session.cookies.set("__Secure-1PSIDTS", "sidts-CjEBPVxjSshve7oZ2z9UHXnwPrd-X3AbLFV1CmaGVvhUhakO2SaSoBT2addpCtpd2WoYEAA")
-
-    return session
-
 sessions = []
 
 # session = requests.Session()
@@ -42,7 +35,6 @@ def process_json():
                newSessions = requests.Session()
                newSessions.headers = SESSION_HEADERS
                newSessions.cookies.set("__Secure-1PSID", token)
-               newSessions.cookies.set("__Secure-1PSIDTS", "sidts-CjEBPVxjSshve7oZ2z9UHXnwPrd-X3AbLFV1CmaGVvhUhakO2SaSoBT2addpCtpd2WoYEAA")
                bard = Bard(token=token, session=newSessions)
                sessions[sessionID] = bard
                bard.get_answer(prompt)['content']
