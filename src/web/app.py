@@ -2,12 +2,18 @@ from flask import Flask, render_template
 from db import get_db, close_db
 import sqlalchemy
 from logger import log
-from bardapi import BardCookies
+import requests 
+from bardapi.constants import SESSION_HEADERS
+from bardapi import Bard
 
-cookie_dict = {
-    "__Secure-1PSID": "dQhvWFqsmqBZFXIj3awh3yYbM3GZJBM6tGY_HC2Yyk9xnmf7kKG8p_RdQxjaZjHabDAnBA.",
-}
-bard = BardCookies(cookie_dict=cookie_dict)
+token = "dQhvWFqsmqBZFXIj3awh3yYbM3GZJBM6tGY_HC2Yyk9xnmf7kKG8p_RdQxjaZjHabDAnBA."
+
+session = requests.Session()
+session.headers = SESSION_HEADERS
+session.cookies.set("__Secure-1PSID", token)
+session.cookies.set("__Secure-1PSIDTS", "sidts-CjEBPVxjSshve7oZ2z9UHXnwPrd-X3AbLFV1CmaGVvhUhakO2SaSoBT2addpCtpd2WoYEAA")
+
+bard = Bard(token=token, session=session)
 
 app = Flask(__name__)
 app.teardown_appcontext(close_db)
