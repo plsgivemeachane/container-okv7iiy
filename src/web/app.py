@@ -31,16 +31,17 @@ def process_json():
            # We will have a session code and thing with very normal
            sessionID = json['session']
            prompt = json['prompt']
-           if not sessionID in sessions:
-               newSessions = requests.Session()
-               newSessions.headers = SESSION_HEADERS
-               newSessions.cookies.set("__Secure-1PSID", token)
-               bard = Bard(token=token, session=newSessions)
-               sessions[sessionID] = bard
-               bard.get_answer(prompt)['content']
-               return bard
-           else:
-               return sessions[sessionID].get_answer(prompt)['content']
+           return json
+           # if not sessionID in sessions:
+           #     newSessions = requests.Session()
+           #     newSessions.headers = SESSION_HEADERS
+           #     newSessions.cookies.set("__Secure-1PSID", token)
+           #     bard = Bard(token=token, session=newSessions)
+           #     sessions[sessionID] = bard
+           #     bard.get_answer(prompt)['content']
+           #     return bard
+           # else:
+           #     return sessions[sessionID].get_answer(prompt)['content']
        else:
            return 'Content-Type not supported!'
    except Exception as e:
