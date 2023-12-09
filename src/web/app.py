@@ -39,7 +39,8 @@ def process_json():
        if not sessionID in sessions:
            newSessions = requests.Session()
            newSessions.headers = SESSION_HEADERS
-           newSessions = seassionCookieSet(newSessions)
+           newSessions.cookies.set("__Secure-1PSID", token)
+           newSessions.cookies.set("__Secure-1PSIDTS", "sidts-CjEBPVxjSshve7oZ2z9UHXnwPrd-X3AbLFV1CmaGVvhUhakO2SaSoBT2addpCtpd2WoYEAA")
            bard = Bard(token=token, session=newSessions)
            sessions[sessionID] = bard
            bard.get_answer(prompt)['content']
