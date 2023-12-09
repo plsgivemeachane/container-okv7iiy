@@ -27,11 +27,11 @@ def process_json():
 
    try:
        if (content_type == 'application/json'):
-           json = request.get_json()
+           json = request.json
            # We will have a session code and thing with very normal
-           sessionID = json['session']
-           prompt = json['prompt']
-           return json
+           sessionID = json.get('session')
+           prompt = json.get('prompt')
+           return (sessionID, prompt)
            # if not sessionID in sessions:
            #     newSessions = requests.Session()
            #     newSessions.headers = SESSION_HEADERS
