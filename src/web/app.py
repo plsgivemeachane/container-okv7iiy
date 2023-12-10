@@ -8,7 +8,7 @@ from bardapi import Bard
 
 token = "dQhvWFqsmqBZFXIj3awh3yYbM3GZJBM6tGY_HC2Yyk9xnmf7Is7I50ubX7rYVwIkUtLPIg."
 # Get your proxy url at crawlbase https://crawlbase.com/docs/smart-proxy/get/
-proxy_url = "http://KSEeVxog5zzqey9Leo4d2A@smartproxy.crawlbase.com:8012" 
+proxy_url = "http://KSEeVxog5zzqey9Leo4d2A:@smartproxy.crawlbase.com:8012" 
 proxies = {"http": proxy_url, "https": proxy_url}
 sessions = {}
 
