@@ -1,13 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from db import get_db, close_db
 import sqlalchemy
 from logger import log
-import requests 
+import requests, pickle
 from bardapi.constants import SESSION_HEADERS
 from bardapi import Bard
 
 token = "dQhvWFqsmqBZFXIj3awh3yYbM3GZJBM6tGY_HC2Yyk9xnmf7kKG8p_RdQxjaZjHabDAnBA."
-sessions = []
+sessions = {}
 
 # session = requests.Session()
 # session.headers = SESSION_HEADERS
@@ -23,29 +23,40 @@ def index():
 
 @app.route('/chat', methods=['POST'])
 def process_json():
-   content_type = request.headers.get('Content-Type')
+    global sessions
+    content_type = request.headers.get('Content-Type')
 
-   try:
-       if (content_type == 'application/json'):
-           json = request.json
-           # We will have a session code and thing with very normal
-           sessionID = json.get('session')
-           prompt = json.get('prompt')
-           return (sessionID, prompt)
-           # if not sessionID in sessions:
-           #     newSessions = requests.Session()
-           #     newSessions.headers = SESSION_HEADERS
-           #     newSessions.cookies.set("__Secure-1PSID", token)
-           #     bard = Bard(token=token, session=newSessions)
-           #     sessions[sessionID] = bard
-           #     bard.get_answer(prompt)['content']
-           #     return bard
-           # else:
-           #     return sessions[sessionID].get_answer(prompt)['content']
-       else:
-           return 'Content-Type not supported!'
-   except Exception as e:
-       return e
+    try:
+        import os
+        if (content_type == 'application/json'):
+            json = request.json
+            # We will have a session code and thing with very normal
+            sessionID = json.get('session')
+            prompt = json.get('prompt')
+            # print(sessions)
+            # Get the session with file
+            if not os.path.exists(f"{sessionID}.ses"):
+                print("HERE")
+                newSessions = requests.Session()
+                newSessions.headers = SESSION_HEADERS
+                newSessions.cookies.set("__Secure-1PSID", token)
+                bard = Bard(token=token, session=newSessions)
+                print("Adding Session")
+                # sessions[sessionID] = bard
+                with open(f"{sessionID}.ses", 'wb') as f:
+                    pickle.dump(newSessions.cookies, f)
+                answer = bard.get_answer(prompt)['content']
+                return answer
+            else:
+                session = requests.session()  # or an existing session
+                with open(f"{sessionID}.ses", 'rb') as f:
+                    session.cookies.update(pickle.load(f))
+                bard = Bard(token=token, session=session)
+                return bard.get_answer(prompt)['content']
+        else:
+            return 'Content-Type not supported!'
+    except Exception as e:
+        return str(e)
 
 
 @app.route("/health")
