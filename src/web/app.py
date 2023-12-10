@@ -6,7 +6,7 @@ import requests, pickle
 from bardapi.constants import SESSION_HEADERS
 from bardapi import Bard
 
-token = "dQhvWFqsmqBZFXIj3awh3yYbM3GZJBM6tGY_HC2Yyk9xnmf7kKG8p_RdQxjaZjHabDAnBA."
+token = "dQhvWFqsmqBZFXIj3awh3yYbM3GZJBM6tGY_HC2Yyk9xnmf7Is7I50ubX7rYVwIkUtLPIg."
 sessions = {}
 
 # session = requests.Session()
@@ -39,7 +39,7 @@ def process_json():
                 print("HERE")
                 newSessions = requests.Session()
                 newSessions.headers = SESSION_HEADERS
-                newSessions.cookies.set("__Secure-1PSID", token)
+                newSessions.cookies.set("__Secure-3PSID", token)
                 bard = Bard(token=token, session=newSessions)
                 print("Adding Session")
                 # sessions[sessionID] = bard
